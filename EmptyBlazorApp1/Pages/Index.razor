@@ -1,0 +1,52 @@
+﻿@page "/"
+
+@using System.Linq
+@using Microsoft.AspNetCore.Components.Web.Virtualization
+
+<h1>Virtualize component demo</h1>
+
+<div style="height:500px;overflow-y:scroll">
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Price</th>
+        </tr>
+        </thead>
+        <tbody>
+        <Virtualize Items="@products" Context="product">
+            <tr>
+                <td>@product.Id</td>
+                <td>@product.Name</td>
+                <td>@product.Price</td>
+            </tr>
+        </Virtualize>
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private List<Product> products;
+
+    protected override void OnInitialized()
+    {
+    // Generate some sample products
+        products = Enumerable.Range(1, 1000)
+            .Select(i => new Product
+            {
+                Id = i,
+                Name = $"Product {i}",
+                Price = i * 10
+            })
+            .ToList();
+    }
+
+    public class Product
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+    }
+
+}
